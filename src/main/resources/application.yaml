@@ -1,0 +1,35 @@
+server:
+  port: 8084
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  codec:
+    max-in-memory-size: 100MB
+  cassandra:
+    contact-points: loomo-cassandra-container
+    keyspace-name: loomo_keyspace
+    port: 9042
+    replication:
+      class: SimpleStrategy
+      replication-factor: 2
+    local-datacenter: datacenter1
+    schema-action: create_if_not_exists
+
+
+aws:
+  region: us-east-1
+  s3:
+    buckets:
+      postImage: loomo-post-image
+
+
+logging:
+  level:
+    root: info
