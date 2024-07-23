@@ -37,36 +37,37 @@ public class S3Service {
 //            throw new RuntimeException(e);
 //        }
 //    }
-    public byte[] getPartialObject(String bucketName, String key, long start, long end) {
-        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                .bucket(bucketName)
-                .key(key)
-                .range("bytes=" + start + "-" + end)
-                .build();
-        ResponseInputStream<GetObjectResponse> res = s3.getObject(getObjectRequest);
-        try {
-            GetObjectResponse objectResponse = res.response();
-            long objectSize = objectResponse.contentLength();
-            long rangeSize = end - start + 1;
-            if (rangeSize > objectSize) {
-                throw new IllegalArgumentException("Specified range exceeds the size of the object");
-            }
-
-            return res.readAllBytes();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public byte[] getPartialObject(String bucketName, String key, long start, long end) {
+//        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+//                .bucket(bucketName)
+//                .key(key)
+//                .range("bytes=" + start + "-" + end)
+//                .build();
+//        ResponseInputStream<GetObjectResponse> res = s3.getObject(getObjectRequest);
+//        try {
+//            GetObjectResponse objectResponse = res.response();
+//            long objectSize = objectResponse.contentLength();
+//            long rangeSize = end - start + 1;
+//            if (rangeSize > objectSize) {
+//                throw new IllegalArgumentException("Specified range exceeds the size of the object");
+//            }
+//
+//            return res.readAllBytes();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
     public byte[] getObject(String bucketName, String key) {
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                 .bucket(bucketName)
                 .key(key)
                 .build();
-        ResponseInputStream<GetObjectResponse> res = s3.getObject(getObjectRequest);
         try {
+            ResponseInputStream<GetObjectResponse> res = s3.getObject(getObjectRequest);
             return res.readAllBytes();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            //then create custom exception no such element on s3 bucket
+            return null;
         }
 
     }
