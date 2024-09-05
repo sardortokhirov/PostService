@@ -28,7 +28,7 @@ aws:
   region: eu-north-1
   s3:
     buckets:
-      postImage: post-image-loomo
+      postImage: loomo-image
 
 
 logging:
